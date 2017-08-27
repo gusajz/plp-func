@@ -11,7 +11,7 @@ padlength = 5
     
 padTree:: (Show a, Show b) => Int -> Int -> Bool -> (Arbol23 a b)-> String
 padTree nivel acum doPad t = case t of 
-				  (Hoja x) -> initialPad ++ stuff x
+                                  (Hoja x) -> initialPad ++ stuff x
                                   (Dos x i d) -> initialPad ++ stuff x ++ 
                                                  pad padlength ++ rec x False i ++ "\n" ++
                                                  rec x True d ++ "\n"
@@ -20,9 +20,9 @@ padTree nivel acum doPad t = case t of
                                                       pad levelPad ++ stuff y ++ pad padlength ++ rec x False m ++ "\n" ++
                                                       rec x True d ++ "\n" 
   where l = length . stuff
-	levelPad = (padlength*nivel + acum)
-	initialPad = (if doPad then pad levelPad else "")
-	rec x = padTree (nivel+1) (acum+l x)
+        levelPad = (padlength*nivel + acum)
+        initialPad = (if doPad then pad levelPad else "")
+        rec x = padTree (nivel+1) (acum+l x)
             
 stuff:: Show a => a -> String
 stuff x = if n > l then pad (n-l) ++ s else s
@@ -35,16 +35,23 @@ pad i = replicate i ' '
 
 {- Funciones pedidas. -}
 
---foldA23::
-foldA23 = undefined
+foldA23 :: (a -> c) -> (b -> c -> c -> c) -> (b -> b -> c -> c -> c -> c) -> Arbol23 a b -> c
+foldA23 f1 f2 f3 (Hoja x) = f1 x
+foldA23 f1 f2 f3 (Dos x ab1 ab2) = f2 x (foldA23 f1 f2 f3 ab1) (foldA23 f1 f2 f3 ab2)
+foldA23 f1 f2 f3 (Tres x y ab1 ab2 ab3) = f3 x y (foldA23 f1 f2 f3 ab1) (foldA23 f1 f2 f3 ab2) (foldA23 f1 f2 f3 ab3)
+    
 
 --Lista en preorden de los internos del árbol.
 internos::Arbol23 a b->[b]
 internos = undefined
 
 --Lista las hojas de izquierda a derecha.
-hojas::Arbol23 a b->[a]
-hojas = undefined
+hojas :: Arbol23 a b -> [a]
+hojas = foldA23 f1 f2 f3
+    where 
+        f1 x = [x]
+        f2 _ acc1 acc2 = acc1 ++ acc2
+        f3 _ _ acc1 acc2 acc3 = acc1 ++ acc2 ++ acc3
 
 esHoja::Arbol23 a b->Bool
 esHoja = undefined
