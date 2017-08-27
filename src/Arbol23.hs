@@ -1,4 +1,9 @@
-module Arbol23 where
+module Arbol23 
+        ( Arbol23
+        , foldA23
+        , hojas
+        , internos
+        ) where
 
 data Arbol23 a b = Hoja a | Dos b (Arbol23 a b) (Arbol23 a b) | Tres b b (Arbol23 a b) (Arbol23 a b) (Arbol23 a b)
 
@@ -42,8 +47,11 @@ foldA23 f1 f2 f3 (Tres x y ab1 ab2 ab3) = f3 x y (foldA23 f1 f2 f3 ab1) (foldA23
     
 
 --Lista en preorden de los internos del árbol.
-internos::Arbol23 a b->[b]
-internos = undefined
+internos :: Arbol23 a b -> [b]
+internos = foldA23 (const []) f2 f3
+    where 
+        f2 x acc1 acc2 = [x] ++ acc1 ++ acc2
+        f3 x y acc1 acc2 acc3 = [x] ++ [y] ++ acc1 ++ acc2 ++ acc3
 
 --Lista las hojas de izquierda a derecha.
 hojas :: Arbol23 a b -> [a]
