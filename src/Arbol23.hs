@@ -1,8 +1,11 @@
 module Arbol23 
-        ( Arbol23
+        ( Arbol23 (Hoja)
         , foldA23
         , hojas
         , internos
+        , esHoja
+        , arbolito1
+        , arbolito2
         ) where
 
 data Arbol23 a b = Hoja a | Dos b (Arbol23 a b) (Arbol23 a b) | Tres b b (Arbol23 a b) (Arbol23 a b) (Arbol23 a b)
@@ -61,8 +64,11 @@ hojas = foldA23 f1 f2 f3
         f2 _ acc1 acc2 = acc1 ++ acc2
         f3 _ _ acc1 acc2 acc3 = acc1 ++ acc2 ++ acc3
 
-esHoja::Arbol23 a b->Bool
-esHoja = undefined
+esHoja :: Arbol23 a b -> Bool
+esHoja a = case a of 
+                        (Hoja _) -> True
+                        _ -> False
+
 
 mapA23::(a->c)->(b->d)->Arbol23 a b->Arbol23 c d
 mapA23 = undefined
