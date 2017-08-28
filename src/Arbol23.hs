@@ -17,6 +17,12 @@ data Arbol23 a b = Hoja a | Dos b (Arbol23 a b) (Arbol23 a b) | Tres b b (Arbol2
 instance (Show a, Show b) => Show (Arbol23 a b) where
     show = ("\n" ++) . (padTree 0 0 False)
 
+
+instance (Eq a, Eq b) => Eq (Arbol23 a b) where
+    Hoja x1 == Hoja x2 = x1 == x2
+    Dos x1 a1 b1 == Dos x2 a2 b2 = x1 == x2 && a1 == a2 && b1 == b2
+    Tres x1 y1 a1 b1 c1 == Tres x2 y2 a2 b2 c2 = x1 == x2 && y1 == y2 && a1 == a2 && b1 == b2 && c1 == c2
+
 padlength = 5    
     
 padTree:: (Show a, Show b) => Int -> Int -> Bool -> (Arbol23 a b)-> String
@@ -72,7 +78,7 @@ esHoja a = case a of
                         _ -> False
 
 
-mapA23::(a->c)->(b->d)->Arbol23 a b->Arbol23 c d
+mapA23:: (a -> c) -> (b -> d) -> Arbol23 a b-> Arbol23 c d
 mapA23 f1 f2  = foldA23 (\x -> Hoja (f1 x) ) (\x ab1 ab2 -> Dos (f2 x) ab1 ab2 ) (\x y ab1 ab2 ab3 -> Tres (f2 x) (f2 y) ab1 ab2 ab3  )
     --where 
         --fa x = Hoja (f1 x)
