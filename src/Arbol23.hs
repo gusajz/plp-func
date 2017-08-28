@@ -1,6 +1,7 @@
 module Arbol23 
-        ( Arbol23 (Hoja)
+        ( Arbol23 (Hoja, Dos, Tres)
         , foldA23
+        , mapA23
         , hojas
         , internos
         , esHoja
@@ -8,6 +9,7 @@ module Arbol23
         , arbolito2
         ) where
 
+import Data.Char
 data Arbol23 a b = Hoja a | Dos b (Arbol23 a b) (Arbol23 a b) | Tres b b (Arbol23 a b) (Arbol23 a b) (Arbol23 a b)
 
 {- Funciones para mostrar el árbol. -}
@@ -71,10 +73,19 @@ esHoja a = case a of
 
 
 mapA23::(a->c)->(b->d)->Arbol23 a b->Arbol23 c d
-mapA23 = undefined
+mapA23 f1 f2  = foldA23 (\x -> Hoja (f1 x) ) (\x ab1 ab2 -> Dos (f2 x) ab1 ab2 ) (\x y ab1 ab2 ab3 -> Tres (f2 x) (f2 y) ab1 ab2 ab3  )
+    --where 
+        --fa x = Hoja (f1 x)
+        --fb x ab1 ab2 = Dos ( (f2 x) ab1 ab2 )
+        --fc x y ab1 ab2 ab3 = Tres ( (f2 x) (f2 y) ab1 ab2 ab3 )
+
+--mapA23 f1 f2 (Hoja x) = Hoja (f1 x)
+--mapA23 f1 f2 (Dos x ab1 ab2) = Dos (f2 x) (mapA23 f1 f2 ab1) (mapA23 f1 f2 ab2)
+--mapA23 f1 f2 (Tres x y ab1 ab2 ab3) = Tres (f2 x) (f2 y) (mapA23 f1 f2 ab1) (mapA23 f1 f2 ab2) (mapA23 f1 f2 ab3)
 
 --Ejemplo de uso de mapA23.
 --Incrementa en 1 el valor de las hojas.
+
 incrementarHojas::Num a =>Arbol23 a b->Arbol23 a b
 incrementarHojas = mapA23 (+1) id
 
