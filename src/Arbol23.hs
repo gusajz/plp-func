@@ -5,9 +5,12 @@ module Arbol23
         , hojas
         , internos
         , esHoja
+        , truncar
         , arbolito1
         , arbolito2
         ) where
+
+import Lib (foldNat)
 
 import Data.Char
 data Arbol23 a b = Hoja a | Dos b (Arbol23 a b) (Arbol23 a b) | Tres b b (Arbol23 a b) (Arbol23 a b) (Arbol23 a b)
@@ -22,6 +25,7 @@ instance (Eq a, Eq b) => Eq (Arbol23 a b) where
     Hoja x1 == Hoja x2 = x1 == x2
     Dos x1 a1 b1 == Dos x2 a2 b2 = x1 == x2 && a1 == a2 && b1 == b2
     Tres x1 y1 a1 b1 c1 == Tres x2 y2 a2 b2 c2 = x1 == x2 && y1 == y2 && a1 == a2 && b1 == b2 && c1 == c2
+    _ == _ = False
 
 padlength = 5    
     
@@ -98,8 +102,9 @@ incrementarHojas = mapA23 (+1) id
 
 --Trunca el árbol hasta un determinado nivel. Cuando llega a 0, reemplaza el resto del árbol por una hoja con el valor indicado.
 --Funciona para árboles infinitos.
-truncar::a->Integer->Arbol23 a b->Arbol23 a b
-truncar = undefined
+truncar :: a -> Integer -> Arbol23 a b -> Arbol23 a b
+truncar valor pisos arbol = foldNat step (Hoja valor) pisos
+        where step n a = a 
 
 --Evalúa las funciones tomando los valores de los hijos como argumentos.
 --En el caso de que haya 3 hijos, asocia a izquierda.
