@@ -30,3 +30,122 @@ main = hspec $ do
                 (mapA23 (:"A") (+1)) arbolito1 `shouldBe` Tres 1 2 (Dos 3 (Hoja "aA") (Hoja "bA"))
                             (Tres 4 5 (Hoja "cA") (Hoja "dA") (Dos 6 (Hoja "eA") (Hoja "fA")))
                             (Dos 7 (Hoja "gA") (Dos 8 (Hoja "hA") (Hoja "iA")))
+
+
+    describe "Ejercicio 4" $ do
+        describe "truncar" $ do
+            it "Hasta el nivel 1, es la raíz original, cambiando los hijos por hojas." $
+                (truncar 'b' 1 arbolGrande) `shouldBe` (Tres 0 1) (Hoja 'b') (Hoja 'b') (Hoja 'b') 
+            it "El resultado de truncar un árbol hasta el nivel 0 es sólo una hoja" $
+                (truncar 'a' 0 arbolGrande) `shouldBe` (Hoja 'a')
+            it "Ejemplo 1" $
+                (truncar 0 3  arbolEjemploTruncar1) `shouldBe` Dos 'p'
+                        (Dos 'l'
+                            (Dos 'g'
+                                (Hoja 0)
+                                (Hoja 0)
+                            ) 
+                            (Tres 'r' 'a'
+                                (Hoja 0)
+                                (Hoja 0)
+                                (Hoja 0)
+                            )
+                        ) 
+                        (Dos 'p' 
+                            (Tres 'n' 'd'
+                                (Hoja 0)
+                                (Hoja 0)
+                                (Hoja 0)
+                            )
+                            (Dos 'e' 
+                                (Hoja 0) 
+                                (Hoja 0)
+                            )
+                        ) 
+            it "Ejemplo 2" $
+                (truncar 0 3  arbolEjemploTruncar2) `shouldBe` Dos "(+)"
+                            (Tres "(*)" "(-)"
+                                (Hoja 1)
+                                (Hoja 2)
+                                (Hoja 3)
+                            )
+                            (Dos "(+)"
+                                (Tres "(*)" "(-)"
+                                    (Hoja 0)
+                                    (Hoja 0)
+                                    (Hoja 0)
+                                )   
+                                (Dos "(+) "          
+                                    (Hoja 0)
+                                    (Hoja 0)
+                                )
+                            ) 
+                    
+            where 
+                    arbolGrande = 
+                        Tres 0 1 
+                        (Dos 2 
+                            (Hoja 'a') 
+                            (Hoja 'b')
+                        ) (Tres 3 4 
+                            (Hoja 'c') 
+                            (Hoja 'd')
+                            (Dos 5 
+                                (Hoja 'e') 
+                                (Hoja 'f')
+                            )
+                        ) (Dos 6 
+                            (Hoja 'g') 
+                            (Dos 7 
+                                (Hoja 'h') 
+                                (Hoja 'i')
+                            )
+                        ) 
+                    arbolEjemploTruncar1 = Dos 'p'
+                        (Dos 'l'
+                            (Dos 'g'
+                                (Hoja 5)
+                                (Hoja 2)
+                            ) 
+                            (Tres 'r' 'a'
+                                (Hoja 0)
+                                (Hoja 1)
+                                (Hoja 12)
+                            )
+                        ) 
+                        (Dos 'p' 
+                            (Tres 'n' 'd'
+                                (Hoja (-3))
+                                (Hoja 4)
+                                (Hoja 9)
+                            )
+                            (Dos 'e' 
+                                (Hoja 20) 
+                                (Hoja 7)
+                            )
+                        ) 
+                    arbolEjemploTruncar2 = Dos "(+)"
+                            (Tres "(*)" "(-)"
+                                (Hoja 1)
+                                (Hoja 2)
+                                (Hoja 3)
+                            )
+                            (Dos "(+)"
+                                (Tres "(*)" "(-)"
+                                    (Hoja 2)
+                                    (Hoja 3)
+                                    (Hoja 4)
+                                )   
+                                (Dos "(+) "          
+                                    (Tres "(*)" "(-)"
+                                        (Hoja 3)
+                                        (Hoja 4)
+                                        (Hoja 5)
+                                    )   
+                                    (Tres "(*)" "(-)"
+                                        (Hoja 3)
+                                        (Hoja 4)
+                                        (Hoja 5)
+                                    )   
+                                )
+                            ) 

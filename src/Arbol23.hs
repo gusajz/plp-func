@@ -82,7 +82,7 @@ esHoja a = case a of
                         _ -> False
 
 
-mapA23:: (a -> c) -> (b -> d) -> Arbol23 a b-> Arbol23 c d
+mapA23:: (a -> c) -> (b -> d) -> Arbol23 a b -> Arbol23 c d
 mapA23 f1 f2  = foldA23 (\x -> Hoja (f1 x) ) (\x ab1 ab2 -> Dos (f2 x) ab1 ab2 ) (\x y ab1 ab2 ab3 -> Tres (f2 x) (f2 y) ab1 ab2 ab3  )
     --where 
         --fa x = Hoja (f1 x)
@@ -103,8 +103,12 @@ incrementarHojas = mapA23 (+1) id
 --Trunca el árbol hasta un determinado nivel. Cuando llega a 0, reemplaza el resto del árbol por una hoja con el valor indicado.
 --Funciona para árboles infinitos.
 truncar :: a -> Integer -> Arbol23 a b -> Arbol23 a b
-truncar valor pisos arbol = foldNat step (Hoja valor) pisos
-        where step n a = a 
+truncar valor pisos = foldNat step (const (Hoja valor)) pisos
+        where 
+            step _ _ (Hoja x) = Hoja x
+            step _ accFunc (Dos x ab1 ab2) = Dos x (accFunc ab1) (accFunc ab2)
+            step _ accFunc (Tres x y ab1 ab2 ab3) = Tres x y (accFunc ab1) (accFunc ab2) (accFunc ab3) 
+            
 
 --Evalúa las funciones tomando los valores de los hijos como argumentos.
 --En el caso de que haya 3 hijos, asocia a izquierda.
