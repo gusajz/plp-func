@@ -88,7 +88,7 @@ vacio :: Comp clave->Diccionario clave valor
 vacio comparador = Dicc {cmp = comparador, estructura = Nothing}
 
 
-definir::clave->valor->Diccionario clave valor->Diccionario clave valor
+definir :: clave -> valor -> Diccionario clave valor -> Diccionario clave valor
 definir clave valor dicc = Dicc 
     { cmp = (cmp dicc)
     , estructura = (Just . insertar') (estructura dicc) }

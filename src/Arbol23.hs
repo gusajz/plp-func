@@ -116,9 +116,10 @@ truncar valor = foldNat step (const (Hoja valor))
 evaluar :: Arbol23 a (a -> a -> a) -> a
 evaluar = foldA23 fHoja fDos fTres 
     where 
-        fHoja x = x
-        fDos f acc1 acc2 = f acc1 acc2
+        fHoja = id
+        fDos f = f
         fTres f1 f2 acc1 acc2 acc3 = f2 (f1 acc1 acc2) acc3
+
 --Ejemplo:
 --evaluar (truncar 0 6 arbolito3) = 22 = (1*2-3)+(2*3-4)+(3*4-5)+(4*5-6)
 
