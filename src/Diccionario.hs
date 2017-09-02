@@ -103,7 +103,8 @@ obtener::Eq clave=>clave->Diccionario clave valor->Maybe valor
 obtener = undefined
 
 claves::Diccionario clave valor->[clave]
-claves = undefined
+claves dicc = fromMaybe [] (fmap (map fst . hojas) (estructura dicc))
+
 
 {- Diccionarios de prueba: -}
 
