@@ -103,7 +103,7 @@ incrementarHojas = mapA23 (+1) id
 --Trunca el árbol hasta un determinado nivel. Cuando llega a 0, reemplaza el resto del árbol por una hoja con el valor indicado.
 --Funciona para árboles infinitos.
 truncar :: a -> Integer -> Arbol23 a b -> Arbol23 a b
-truncar valor pisos = foldNat step (const (Hoja valor)) pisos
+truncar valor = foldNat step (const (Hoja valor)) 
         where 
             step _ _ (Hoja x) = Hoja x
             step _ accFunc (Dos x ab1 ab2) = Dos x (accFunc ab1) (accFunc ab2)
