@@ -102,6 +102,15 @@ definir clave valor dicc = Dicc
 obtener::Eq clave=>clave->Diccionario clave valor->Maybe valor
 obtener = undefined
 
+dameValor::Arbol23 (clave,valor) clave -> clave -> (clave -> clave -> Bool) -> Maybe valor
+dameValor arbol cl comp = foldA23 f1 f2 f3 arbol
+    where
+        f1 x = snd(x)
+        f2 x acc1 acc2 = if comp x cl then acc1 else acc2
+        f3 x y acc1 acc2 acc3 = if comp x cl then acc1 else (if comp y cl then acc2 else acc3)
+
+
+
 claves::Diccionario clave valor->[clave]
 claves dicc = fromMaybe [] (fmap (map fst . hojas) (estructura dicc))
 
