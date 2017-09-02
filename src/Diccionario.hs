@@ -12,6 +12,8 @@ module Diccionario
     , dicc2
     , dicc3) where
 
+import Debug.Trace
+
 import Data.Maybe
 import Data.List
 import Arbol23
@@ -99,15 +101,19 @@ definir clave valor dicc = Dicc
         -- Dicc { cmp = (cmp dicc)
     -- , estructura = insertar clave valor (cmp dicc) (estructura dicc) }
 
-obtener::Eq clave=>clave->Diccionario clave valor->Maybe valor
-obtener = undefined
+obtener::(Show clave, Eq clave)=>clave->Diccionario clave valor->Maybe valor
+obtener clave dicc = obtener' (estructura dicc)
+    where 
+        obtener' (Just estr) = dameValor clave (cmp dicc) estr
+        obtener' Nothing = Nothing
 
-dameValor::Arbol23 (clave,valor) clave -> clave -> (clave -> clave -> Bool) -> Maybe valor
-dameValor arbol cl comp = foldA23 f1 f2 f3 arbol
+
+dameValor::(Eq clave, Show clave) => clave -> (clave -> clave -> Bool) -> Arbol23 (clave,valor) clave -> Maybe valor
+dameValor cl comp arbol = foldA23 f1 f2 f3 arbol
     where
-        f1 x = snd(x)
-        f2 x acc1 acc2 = if comp x cl then acc1 else acc2
-        f3 x y acc1 acc2 acc3 = if comp x cl then acc1 else (if comp y cl then acc2 else acc3)
+        f1 x = if (fst x) == cl then Just (snd x) else Nothing
+        f2 x acc1 acc2 = if comp cl x then acc1 else acc2
+        f3 x y acc1 acc2 acc3 = if comp cl x then acc1 else (if comp cl y then acc2 else acc3)
 
 
 

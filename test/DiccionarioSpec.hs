@@ -20,6 +20,17 @@ spec = do
             it "Deberia tener el mismo comparador 1" $ (cmp diccionarioVacio) 1 2 `shouldBe` 1 > 2
             it "Deberia tener el mismo comparador 2" $ (cmp diccionarioVacio) 1 1 `shouldBe` 1 > 1
             it "Deberia tener el mismo comparador 3" $ (cmp diccionarioVacio) 1 0 `shouldBe` 1 > 0
+
+        describe "obtener" $ do
+            it "Deberia obtener un valor" $ 
+                (obtener 0 dicc1) `shouldBe` (Just "Hola")
+
+            it "Deberia obtener otro valor" $ 
+                (obtener 9 dicc1) `shouldBe` (Just "a")
+
+            it "Deberia no obtener una clave que no existe" $ 
+                (obtener 533 dicc1) `shouldBe` Nothing
+
         describe "definir" $ do
             it "Deberia definir como una hoja el primer elemento de un diccionario vacío" $ 
                 estructura (definir 0 "hola" diccionarioVacio) `shouldBe` Just (Hoja (0, "hola"))
