@@ -4,6 +4,10 @@ import Diccionario
 import Arbol23
 
 import Test.Hspec
+import Data.List
+
+mismosElementos :: Eq a => [a] -> [a] -> Bool
+mismosElementos xs ys = null (xs \\ ys) && null (ys \\ xs)
 
 diccionarioVacio :: Diccionario Integer String 
 diccionarioVacio = (vacio (>))
@@ -22,3 +26,14 @@ spec = do
             it "Deberia definir insertar un elemento en un diccionario no vacío" $ 
                 estructura (definir 1 "chau" $ definir 0 "hola" diccionarioVacio) `shouldBe` 
                     Just (insertar 1 "chau" (cmp diccionarioVacio) (Hoja (0, "hola")))
+
+
+        describe "claves" $ do
+            it "Debería dar las claves de dicc1" $
+                mismosElementos (claves dicc1) [0, -10, 15, 2, 9] `shouldBe` True
+
+            it "Debería dar las claves de dicc2" $
+                mismosElementos (claves dicc2) ["inicio", "auto", "calle", "casa", "ropero", "escalera"] `shouldBe` True
+
+            it "Debería dar las claves de dicc3" $
+                mismosElementos (claves dicc3) [0, -10, 15, 2, 9] `shouldBe` True
