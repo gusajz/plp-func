@@ -6,6 +6,7 @@ module Arbol23
         , internos
         , esHoja
         , truncar
+        , evaluar
         , arbolito1
         , arbolito2
         ) where
@@ -112,11 +113,12 @@ truncar valor = foldNat step (const (Hoja valor))
 
 --Evalúa las funciones tomando los valores de los hijos como argumentos.
 --En el caso de que haya 3 hijos, asocia a izquierda.
-evaluar::Arbol23 a (a->a->a)->a
-evaluar (Hoja x) = Hoja x
-evaluar (Dos f ab1 ab2) = f (evaluar ab1) (evaluar ab2)
-evaluar (Tres f1 f2 ab1 ab2 ab3) = f2 (f1 (evaluar ab1) (evaluar ab2)) (evaluar ab3)
-
+evaluar :: Arbol23 a (a -> a -> a) -> a
+evaluar = foldA23 fHoja fDos fTres 
+    where 
+        fHoja x = x
+        fDos f acc1 acc2 = f acc1 acc2
+        fTres f1 f2 acc1 acc2 acc3 = f2 (f1 acc1 acc2) acc3
 --Ejemplo:
 --evaluar (truncar 0 6 arbolito3) = 22 = (1*2-3)+(2*3-4)+(3*4-5)+(4*5-6)
 
