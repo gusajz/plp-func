@@ -1,4 +1,4 @@
-module Diccionario (Diccionario, vacio, definir, definirVarias, obtener, claves) where
+module Diccionario (Diccionario, estructura, cmp, vacio, definir, definirVarias, obtener, claves) where
 
 import Data.Maybe
 import Data.List
@@ -72,8 +72,9 @@ definirVarias = (flip.foldr.uncurry) definir
 
 {- Funciones a implementar. -}
 
-vacio::Comp clave->Diccionario clave valor
-vacio = undefined
+vacio :: Comp clave->Diccionario clave valor
+vacio comparador = Dicc {cmp = comparador, estructura = Nothing}
+
 
 definir::clave->valor->Diccionario clave valor->Diccionario clave valor
 definir = undefined
