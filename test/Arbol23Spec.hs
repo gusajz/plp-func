@@ -6,6 +6,73 @@ import Data.List
 import Lib
 import Arbol23
 
+arbolGrande = 
+    Tres 0 1 
+    (Dos 2 
+        (Hoja 'a') 
+        (Hoja 'b')
+    ) (Tres 3 4 
+        (Hoja 'c') 
+        (Hoja 'd')
+        (Dos 5 
+            (Hoja 'e') 
+            (Hoja 'f')
+        )
+    ) (Dos 6 
+        (Hoja 'g') 
+        (Dos 7 
+            (Hoja 'h') 
+            (Hoja 'i')
+        )
+    ) 
+arbolEjemploTruncar1 = Dos 'p'
+    (Dos 'l'
+        (Dos 'g'
+            (Hoja 5)
+            (Hoja 2)
+        ) 
+        (Tres 'r' 'a'
+            (Hoja 0)
+            (Hoja 1)
+            (Hoja 12)
+        )
+    ) 
+    (Dos 'p' 
+        (Tres 'n' 'd'
+            (Hoja (-3))
+            (Hoja 4)
+            (Hoja 9)
+        )
+        (Dos 'e' 
+            (Hoja 20) 
+            (Hoja 7)
+        )
+    ) 
+arbolEjemploTruncar2 = Dos "(+)"
+        (Tres "(*)" "(-)"
+            (Hoja 1)
+            (Hoja 2)
+            (Hoja 3)
+        )
+        (Dos "(+)"
+            (Tres "(*)" "(-)"
+                (Hoja 2)
+                (Hoja 3)
+                (Hoja 4)
+            )   
+            (Dos "(+) "          
+                (Tres "(*)" "(-)"
+                    (Hoja 3)
+                    (Hoja 4)
+                    (Hoja 5)
+                )   
+                (Tres "(*)" "(-)"
+                    (Hoja 3)
+                    (Hoja 4)
+                    (Hoja 5)
+                )   
+            )
+        ) 
 spec :: Spec
 spec = do
     describe "Ejercicio 2" $ do
@@ -83,71 +150,8 @@ spec = do
                                 )
                             ) 
                     
-            where 
-                    arbolGrande = 
-                        Tres 0 1 
-                        (Dos 2 
-                            (Hoja 'a') 
-                            (Hoja 'b')
-                        ) (Tres 3 4 
-                            (Hoja 'c') 
-                            (Hoja 'd')
-                            (Dos 5 
-                                (Hoja 'e') 
-                                (Hoja 'f')
-                            )
-                        ) (Dos 6 
-                            (Hoja 'g') 
-                            (Dos 7 
-                                (Hoja 'h') 
-                                (Hoja 'i')
-                            )
-                        ) 
-                    arbolEjemploTruncar1 = Dos 'p'
-                        (Dos 'l'
-                            (Dos 'g'
-                                (Hoja 5)
-                                (Hoja 2)
-                            ) 
-                            (Tres 'r' 'a'
-                                (Hoja 0)
-                                (Hoja 1)
-                                (Hoja 12)
-                            )
-                        ) 
-                        (Dos 'p' 
-                            (Tres 'n' 'd'
-                                (Hoja (-3))
-                                (Hoja 4)
-                                (Hoja 9)
-                            )
-                            (Dos 'e' 
-                                (Hoja 20) 
-                                (Hoja 7)
-                            )
-                        ) 
-                    arbolEjemploTruncar2 = Dos "(+)"
-                            (Tres "(*)" "(-)"
-                                (Hoja 1)
-                                (Hoja 2)
-                                (Hoja 3)
-                            )
-                            (Dos "(+)"
-                                (Tres "(*)" "(-)"
-                                    (Hoja 2)
-                                    (Hoja 3)
-                                    (Hoja 4)
-                                )   
-                                (Dos "(+) "          
-                                    (Tres "(*)" "(-)"
-                                        (Hoja 3)
-                                        (Hoja 4)
-                                        (Hoja 5)
-                                    )   
-                                    (Tres "(*)" "(-)"
-                                        (Hoja 3)
-                                        (Hoja 4)
-                                        (Hoja 5)
-                                    )   
-                                )
-                            ) 
+     
+    describe "Ejercicio 5" $ do
+        describe "evaluar" $ do
+            it "Should work" $
+                True `shouldBe` True
