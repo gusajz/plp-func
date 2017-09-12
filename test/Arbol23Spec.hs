@@ -48,6 +48,7 @@ arbolEjemploTruncar1 = Dos 'p'
             (Hoja 7)
         )
     ) 
+
 arbolEjemploTruncar2 = Dos "(+)"
         (Tres "(*)" "(-)"
             (Hoja 1)
@@ -60,7 +61,7 @@ arbolEjemploTruncar2 = Dos "(+)"
                 (Hoja 3)
                 (Hoja 4)
             )   
-            (Dos "(+) "          
+            (Dos "(+)"          
                 (Tres "(*)" "(-)"
                     (Hoja 3)
                     (Hoja 4)
@@ -73,6 +74,17 @@ arbolEjemploTruncar2 = Dos "(+)"
                 )   
             )
         ) 
+
+arbolEjemploEvaluar :: Int -> Arbol23 Int (Int -> Int -> Int)
+arbolEjemploEvaluar n = Dos (+)
+        (Tres (*) (-)
+            (Hoja (n + 1))
+            (Hoja (n + 2))
+            (Hoja (n + 3))
+        ) (arbolEjemploEvaluar (n + 1))
+
+arbolEjemploEvaluar1 = arbolEjemploEvaluar 0    
+        
 spec :: Spec
 spec = do
     describe "Ejercicio 2" $ do
@@ -87,8 +99,8 @@ spec = do
                 (esHoja (Hoja 1)) `shouldBe`  True
             it "Deberia dar False de arbolito1" $
                 (esHoja arbolito1) `shouldBe`  False
-                -- it "Deberia hacer el preorden de arbolito3" $
-            --     (internos arbolito2) `shouldBe`  [True, False, True]
+            it "Deberia hacer el preorden de arbolito3" $
+                (internos arbolito2) `shouldBe`  [True, False, True]
 
     describe "Ejercicio 3" $ do
         describe "mapA23" $ do
@@ -144,14 +156,19 @@ spec = do
                                     (Hoja 0)
                                     (Hoja 0)
                                 )   
-                                (Dos "(+) "          
+                                (Dos "(+)"          
                                     (Hoja 0)
                                     (Hoja 0)
                                 )
                             ) 
                     
-     
     describe "Ejercicio 5" $ do
         describe "evaluar" $ do
-            it "Should work" $
-                True `shouldBe` True
+            it "Debería resolver el primer ejemplo de la guia" $
+                evaluar (truncar 0 3 arbolEjemploEvaluar1) `shouldBe` -1
+            it "Debería resolver el segundo ejemplo de la guia" $
+                evaluar (truncar 0 4 arbolEjemploEvaluar1) `shouldBe` 1
+            it "Debería resolver el tercer ejemplo de la guia" $
+                evaluar (truncar 0 5 arbolEjemploEvaluar1) `shouldBe` 8
+            it "Debería resolver el cuarto ejemplo de la guia" $
+                evaluar (truncar 0 6 arbolEjemploEvaluar1) `shouldBe` 22
