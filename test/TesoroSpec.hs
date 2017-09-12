@@ -20,3 +20,7 @@ spec = do
 
         describe "busquedaDelTesoro sobre un diccionario vacío" $ do
             it "Deberia no encontrar un tesoro" $ (busquedaDelTesoro "calle" (== "escalera") juego1) `shouldBe` Nothing
+
+        describe "busquedaDelTesoro sobre dicc2" $ do
+            it "Debería encontrar alfajor" $
+                (Just "alfajor") `shouldBe` (busquedaDelTesoro "inicio" ((=='a').head) dicc2)

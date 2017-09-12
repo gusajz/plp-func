@@ -9,6 +9,9 @@ module Arbol23
         , evaluar
         , arbolito1
         , arbolito2
+        , arbolito3
+        , arbolito4
+        , incrementarHojas
         ) where
 
 import Lib (foldNat)
