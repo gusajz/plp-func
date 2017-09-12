@@ -21,6 +21,15 @@ spec = do
             it "Deberia tener el mismo comparador 2" $ (cmp diccionarioVacio) 1 1 `shouldBe` 1 > 1
             it "Deberia tener el mismo comparador 3" $ (cmp diccionarioVacio) 1 0 `shouldBe` 1 > 0
 
+    describe "Ejercicio 7" $ do
+        describe "definir" $ do
+            it "Deberia definir como una hoja el primer elemento de un diccionario vacío" $ 
+                estructura (definir 0 "hola" diccionarioVacio) `shouldBe` Just (Hoja (0, "hola"))
+            it "Deberia definir insertar un elemento en un diccionario no vacío" $ 
+                estructura (definir 1 "chau" $ definir 0 "hola" diccionarioVacio) `shouldBe` 
+                    Just (insertar 1 "chau" (cmp diccionarioVacio) (Hoja (0, "hola")))
+
+    describe "Ejercicio 8" $ do
         describe "obtener" $ do
             it "Deberia obtener un valor" $ 
                 (obtener 0 dicc1) `shouldBe` (Just "Hola")
@@ -31,14 +40,8 @@ spec = do
             it "Deberia no obtener una clave que no existe" $ 
                 (obtener 533 dicc1) `shouldBe` Nothing
 
-        describe "definir" $ do
-            it "Deberia definir como una hoja el primer elemento de un diccionario vacío" $ 
-                estructura (definir 0 "hola" diccionarioVacio) `shouldBe` Just (Hoja (0, "hola"))
-            it "Deberia definir insertar un elemento en un diccionario no vacío" $ 
-                estructura (definir 1 "chau" $ definir 0 "hola" diccionarioVacio) `shouldBe` 
-                    Just (insertar 1 "chau" (cmp diccionarioVacio) (Hoja (0, "hola")))
 
-
+    describe "Ejercicio 9" $ do
         describe "claves" $ do
             it "Debería dar las claves de dicc1" $
                 mismosElementos (claves dicc1) [0, -10, 15, 2, 9] `shouldBe` True
