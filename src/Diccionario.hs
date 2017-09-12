@@ -100,13 +100,13 @@ definir clave valor dicc = Dicc
         
 
 obtener :: Eq clave => clave -> Diccionario clave valor -> Maybe valor
-obtener clave dicc = obtener' (estructura dicc)
-    where 
-        obtener' (Just estr) = dameValor clave (cmp dicc) estr
-        obtener' Nothing = Nothing
+obtener clave dicc = (dameValor clave (cmp dicc)) =<< (estructura dicc)
+-- Usamos bind (=<<) sobre Maybe para ahorrarnos el manejo del Just/Nothing. Abajo se ve como sería si no lo hicieramos:
+-- obtener' (Just estr) = dameValor clave (cmp dicc) estr
+-- obtener' Nothing = Nothing
 
 
-dameValor:: Eq clave => clave -> (clave -> clave -> Bool) -> Arbol23 (clave,valor) clave -> Maybe valor
+dameValor :: Eq clave => clave -> (clave -> clave -> Bool) -> Arbol23 (clave,valor) clave -> Maybe valor
 dameValor cl comp arbol = foldA23 f1 f2 f3 arbol
     where
         f1 x = if (fst x) == cl then Just (snd x) else Nothing

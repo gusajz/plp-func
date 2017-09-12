@@ -9,13 +9,14 @@ import Arbol23
 import Debug.Trace
 
 busquedaDelTesoro :: (Show a, Eq a) => a -> (a -> Bool) -> Diccionario a a -> Maybe a
-busquedaDelTesoro pista validador dicc = last (takeWhile noEncontrado pistas) >>= flip obtener dicc
+busquedaDelTesoro pista esTesoro dicc = last (takeWhile noEncontrado pistas) >>= flip obtener dicc
     where 
-        pistas = iterate obtenerPista (Just pista)
-        
-        obtenerPista (Just p) = obtener p dicc
-        obtenerPista Nothing = Nothing
+        -- Usamos =<< porque obtener debería recibir "a", no Maybe a.
+        pistas = iterate (flip obtener dicc =<<) (Just pista)
+        -- Otra opción:
+        -- obtenerPista (Just p) = flip obtener dicc p
+        -- obtenerPista Nothing = Nothing
 
-        noEncontrado Nothing = False
-        noEncontrado (Just p) = not (validador p)
+        -- El tesoro no se encontró si hay un Nothing o hay un Just, pero el contenido no es el tesoro.
+        noEncontrado = maybe False (not . esTesoro)
         
