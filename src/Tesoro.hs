@@ -4,9 +4,6 @@ module Tesoro
 
 
 import Diccionario
-import Arbol23
-
-import Debug.Trace
 
 busquedaDelTesoro :: (Show a, Eq a) => a -> (a -> Bool) -> Diccionario a a -> Maybe a
 busquedaDelTesoro pista esTesoro dicc = last (takeWhile noEncontrado pistas) >>= flip obtener dicc

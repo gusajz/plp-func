@@ -13,7 +13,6 @@ module Arbol23
 
 import Lib (foldNat)
 
-import Data.Char
 data Arbol23 a b = Hoja a | Dos b (Arbol23 a b) (Arbol23 a b) | Tres b b (Arbol23 a b) (Arbol23 a b) (Arbol23 a b)
 
 {- Funciones para mostrar el árbol. -}
@@ -28,6 +27,7 @@ instance (Eq a, Eq b) => Eq (Arbol23 a b) where
     Tres x1 y1 a1 b1 c1 == Tres x2 y2 a2 b2 c2 = x1 == x2 && y1 == y2 && a1 == a2 && b1 == b2 && c1 == c2
     _ == _ = False
 
+padlength :: Int
 padlength = 5    
     
 padTree:: (Show a, Show b) => Int -> Int -> Bool -> (Arbol23 a b)-> String
@@ -78,21 +78,16 @@ hojas = foldA23 f1 f2 f3
         f3 _ _ acc1 acc2 acc3 = acc1 ++ acc2 ++ acc3
 
 esHoja :: Arbol23 a b -> Bool
-esHoja a = case a of 
-                        (Hoja _) -> True
-                        _ -> False
+esHoja (Hoja _) = True
+esHoja _ =  False
 
 
-mapA23:: (a -> c) -> (b -> d) -> Arbol23 a b -> Arbol23 c d
-mapA23 f1 f2  = foldA23 (\x -> Hoja (f1 x) ) (\x ab1 ab2 -> Dos (f2 x) ab1 ab2 ) (\x y ab1 ab2 ab3 -> Tres (f2 x) (f2 y) ab1 ab2 ab3  )
-    --where 
-        --fa x = Hoja (f1 x)
-        --fb x ab1 ab2 = Dos ( (f2 x) ab1 ab2 )
-        --fc x y ab1 ab2 ab3 = Tres ( (f2 x) (f2 y) ab1 ab2 ab3 )
-
---mapA23 f1 f2 (Hoja x) = Hoja (f1 x)
---mapA23 f1 f2 (Dos x ab1 ab2) = Dos (f2 x) (mapA23 f1 f2 ab1) (mapA23 f1 f2 ab2)
---mapA23 f1 f2 (Tres x y ab1 ab2 ab3) = Tres (f2 x) (f2 y) (mapA23 f1 f2 ab1) (mapA23 f1 f2 ab2) (mapA23 f1 f2 ab3)
+mapA23 :: (a -> c) -> (b -> d) -> Arbol23 a b -> Arbol23 c d
+mapA23 f1 f2  = foldA23 mapHoja mapDos mapTres
+    where 
+        mapHoja = (Hoja . f1)
+        mapDos x ab1 ab2 = Dos (f2 x) ab1 ab2
+        mapTres x y ab1 ab2 ab3 = Tres (f2 x) (f2 y) ab1 ab2 ab3
 
 --Ejemplo de uso de mapA23.
 --Incrementa en 1 el valor de las hojas.

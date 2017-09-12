@@ -12,10 +12,7 @@ module Diccionario
     , dicc2
     , dicc3) where
 
-import Debug.Trace
 
-import Data.Maybe
-import Data.List
 import Arbol23
 
 {- Definiciones de tipos. -}
@@ -95,8 +92,9 @@ definir clave valor dicc = Dicc
     { cmp = (cmp dicc)
     , estructura = (Just . insertar') (estructura dicc) }
     where 
-        insertar' (Just estr) = insertar clave valor (cmp dicc) estr
-        insertar' Nothing = Hoja (clave, valor)
+        -- Si la estructura está vacía, devuelve una hoja, sino, el resultado de insertar la clave y el valor al árbol
+        -- Se podría haber hecho por pattern matching, pero quedaba más conciso usando la función maybe.
+        insertar' = maybe (Hoja (clave, valor)) (insertar clave valor (cmp dicc))
         
 
 obtener :: Eq clave => clave -> Diccionario clave valor -> Maybe valor
@@ -116,7 +114,8 @@ dameValor cl comp arbol = foldA23 f1 f2 f3 arbol
 
 
 claves :: Diccionario clave valor -> [clave]
-claves dicc = fromMaybe [] (fmap (map fst . hojas) (estructura dicc))
+-- En caso de que la estructura sea Just, se busca el primer elemento de todas las hojas. Si es nothing, el diccionario está vacío: se devuelve la lista vacía.
+claves dicc = maybe [] (map fst . hojas) (estructura dicc)
 
 
 {- Diccionarios de prueba: -}
