@@ -6,48 +6,48 @@ import Data.List
 import Lib
 import Arbol23
 
-arbolGrande = 
-    Tres 0 1 
-    (Dos 2 
-        (Hoja 'a') 
+arbolGrande =
+    Tres 0 1
+    (Dos 2
+        (Hoja 'a')
         (Hoja 'b')
-    ) (Tres 3 4 
-        (Hoja 'c') 
+    ) (Tres 3 4
+        (Hoja 'c')
         (Hoja 'd')
-        (Dos 5 
-            (Hoja 'e') 
+        (Dos 5
+            (Hoja 'e')
             (Hoja 'f')
         )
-    ) (Dos 6 
-        (Hoja 'g') 
-        (Dos 7 
-            (Hoja 'h') 
+      ) (Dos 6
+        (Hoja 'g')
+        (Dos 7
+            (Hoja 'h')
             (Hoja 'i')
         )
-    ) 
+        )
 arbolEjemploTruncar1 = Dos 'p'
     (Dos 'l'
         (Dos 'g'
             (Hoja 5)
             (Hoja 2)
-        ) 
+        )
         (Tres 'r' 'a'
             (Hoja 0)
             (Hoja 1)
             (Hoja 12)
         )
-    ) 
-    (Dos 'p' 
+    )
+    (Dos 'p'
         (Tres 'n' 'd'
             (Hoja (-3))
             (Hoja 4)
             (Hoja 9)
         )
-        (Dos 'e' 
-            (Hoja 20) 
+        (Dos 'e'
+            (Hoja 20)
             (Hoja 7)
         )
-    ) 
+    )
 
 arbolEjemploTruncar2 = Dos "(+)"
         (Tres "(*)" "(-)"
@@ -60,20 +60,59 @@ arbolEjemploTruncar2 = Dos "(+)"
                 (Hoja 2)
                 (Hoja 3)
                 (Hoja 4)
-            )   
-            (Dos "(+)"          
-                (Tres "(*)" "(-)"
-                    (Hoja 3)
-                    (Hoja 4)
-                    (Hoja 5)
-                )   
-                (Tres "(*)" "(-)"
-                    (Hoja 3)
-                    (Hoja 4)
-                    (Hoja 5)
-                )   
             )
-        ) 
+            (Dos "(+)"
+                (Tres "(*)" "(-)"
+                    (Hoja 3)
+                    (Hoja 4)
+                    (Hoja 5)
+                )
+                (Tres "(*)" "(-)"
+                    (Hoja 3)
+                    (Hoja 4)
+                    (Hoja 5)
+                )
+            )
+        )
+
+arbolTrivial1 = Dos (+)
+                    (Hoja 1)
+                    (Hoja 1)
+
+arbolTrivial2 = Dos (-)
+                    (Hoja 1)
+                    (Hoja 1)
+
+arbolGrande2=  Dos (+)
+    (Tres (+) (-)
+        (Dos (+)
+            (Hoja 1)
+            (Hoja 1)
+        )
+        (Dos (-)
+            (Hoja 1)
+            (Hoja 1)
+        )
+        (Dos (-)
+            (Hoja 0)
+            (Hoja 0)
+        )
+    )
+    (Tres (+) (-)
+        (Dos (+)
+            (Hoja 1)
+            (Hoja 1)
+        )
+        (Dos (+)
+            (Hoja 1)
+            (Hoja 1)
+        )
+        (Dos (-)
+            (Hoja 0)
+            (Hoja 0)
+        )
+    )
+
 
 arbolEjemploEvaluar :: Int -> Arbol23 Int (Int -> Int -> Int)
 arbolEjemploEvaluar n = Dos (+)
@@ -83,8 +122,8 @@ arbolEjemploEvaluar n = Dos (+)
             (Hoja (n + 3))
         ) (arbolEjemploEvaluar (n + 1))
 
-arbolEjemploEvaluar1 = arbolEjemploEvaluar 0    
-        
+arbolEjemploEvaluar1 = arbolEjemploEvaluar 0
+
 spec :: Spec
 spec = do
     describe "Ejercicio 2" $ do
@@ -116,7 +155,7 @@ spec = do
     describe "Ejercicio 4" $ do
         describe "truncar" $ do
             it "Hasta el nivel 1, es la raíz original, cambiando los hijos por hojas." $
-                (truncar 'b' 1 arbolGrande) `shouldBe` (Tres 0 1) (Hoja 'b') (Hoja 'b') (Hoja 'b') 
+                (truncar 'b' 1 arbolGrande) `shouldBe` (Tres 0 1) (Hoja 'b') (Hoja 'b') (Hoja 'b')
             it "El resultado de truncar un árbol hasta el nivel 0 es sólo una hoja" $
                 (truncar 'a' 0 arbolGrande) `shouldBe` (Hoja 'a')
             it "Ejemplo 1" $
@@ -125,24 +164,24 @@ spec = do
                             (Dos 'g'
                                 (Hoja 0)
                                 (Hoja 0)
-                            ) 
+                            )
                             (Tres 'r' 'a'
                                 (Hoja 0)
                                 (Hoja 0)
                                 (Hoja 0)
                             )
-                        ) 
-                        (Dos 'p' 
+                        )
+                        (Dos 'p'
                             (Tres 'n' 'd'
                                 (Hoja 0)
                                 (Hoja 0)
                                 (Hoja 0)
                             )
-                            (Dos 'e' 
-                                (Hoja 0) 
+                            (Dos 'e'
+                                (Hoja 0)
                                 (Hoja 0)
                             )
-                        ) 
+                        )
             it "Ejemplo 2" $
                 (truncar 0 3  arbolEjemploTruncar2) `shouldBe` Dos "(+)"
                             (Tres "(*)" "(-)"
@@ -155,20 +194,43 @@ spec = do
                                     (Hoja 0)
                                     (Hoja 0)
                                     (Hoja 0)
-                                )   
-                                (Dos "(+)"          
+                                )
+                                (Dos "(+)"
                                     (Hoja 0)
                                     (Hoja 0)
                                 )
-                            ) 
-                    
+                            )
+
     describe "Ejercicio 5" $ do
         describe "evaluar" $ do
             it "Debería resolver el primer ejemplo de la guia" $
                 evaluar (truncar 0 3 arbolEjemploEvaluar1) `shouldBe` -1
+            it "Debería ver si el primer ejemplo no da otro numero" $
+                evaluar (truncar 0 3 arbolEjemploEvaluar1) `shouldNotBe` 3
             it "Debería resolver el segundo ejemplo de la guia" $
                 evaluar (truncar 0 4 arbolEjemploEvaluar1) `shouldBe` 1
+            it "Debería checkear que el segundo ejemplo no de otro numero" $
+                evaluar (truncar 0 4 arbolEjemploEvaluar1) `shouldNotBe` 0
             it "Debería resolver el tercer ejemplo de la guia" $
                 evaluar (truncar 0 5 arbolEjemploEvaluar1) `shouldBe` 8
+            it "Debería checkear que el tercer ejemplo no de otro numero" $
+                evaluar (truncar 0 5 arbolEjemploEvaluar1) `shouldNotBe` 1
             it "Debería resolver el cuarto ejemplo de la guia" $
                 evaluar (truncar 0 6 arbolEjemploEvaluar1) `shouldBe` 22
+            it "Debería checkear que el cuarto ejemplo no de otro numero" $
+                evaluar (truncar 0 6 arbolEjemploEvaluar1) `shouldNotBe` 20
+
+            it "Debería checkear que evaluar al arboltrivial1 de 2" $
+                evaluar arbolTrivial1 `shouldBe` 2
+
+            it "Debería checkear el arboltrivial1 no sea diferente de 2" $
+                evaluar arbolTrivial1 `shouldNotBe` 3
+
+            it "Debería checkear que evaluar a arboltrivial2 sea 0" $
+                evaluar arbolTrivial2 `shouldBe` 0
+
+            it "Debería checkear el arboltrivial2 que no espera otro numero que no sea 2" $
+                evaluar arbolTrivial2 `shouldNotBe` 1
+
+            it "Debería checkear el arboltrivial2 que no espera otro numero que no sea 2" $
+                evaluar arbolGrande2 `shouldNotBe` 4

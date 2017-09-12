@@ -8,6 +8,7 @@ import Test.Hspec
 import Data.List
 
 juego1 = definirVarias [("inicio","casa"),("auto","flores"),("calle","auto"),("casa","escalera"),("ropero","alfajor"),("escalera","ropero")] (vacio (<))
+juego2 = definirVarias [("leon","elefante"),("cebra","jirafa"),("pato","cebra"),("elefante","pato")] (vacio (<))
 juegoVacio :: Diccionario String String 
 juegoVacio = vacio (<)
 
@@ -20,3 +21,7 @@ spec = do
 
         describe "busquedaDelTesoro sobre un diccionario vacío" $ do
             it "Deberia no encontrar un tesoro" $ (busquedaDelTesoro "calle" (== "escalera") juego1) `shouldBe` Nothing
+
+        describe "busquedaDelTesoro sobre un diccionario con todos los elementos relacionados recorriendo todos" $ do
+            it "Deberia no encontrar un tesoro" $ (busquedaDelTesoro "leon" (== "jirafa") juego2) `shouldBe` (Just "jirafa")
+            it "Deberia no encontrar un tesoro" $ (busquedaDelTesoro "leon" (== "cocodrilo") juego2) `shouldBe` Nothing
