@@ -127,6 +127,11 @@ arbolEjemploEvaluar1 = arbolEjemploEvaluar 0
 spec :: Spec
 spec = do
     describe "Ejercicio 2" $ do
+        describe "hojas" $ do
+            it "Debería obtener las hojas de arbolito1" $
+                "abcdefghi" `shouldBe` (hojas arbolito1)
+            it "Debería obtener las 10 primeras hojas de arbolito3" $
+                [1,2,3,2,3,4,3,4,5,4] `shouldBe` (take 10 (hojas arbolito3))
         describe "internos" $ do
             it "Deberia hacer el preorden de arbolito1" $
                 (internos arbolito1) `shouldBe`  [0, 1, 2, 3, 4, 5, 6, 7]
@@ -151,9 +156,15 @@ spec = do
                             (Tres 4 5 (Hoja "cA") (Hoja "dA") (Dos 6 (Hoja "eA") (Hoja "fA")))
                             (Dos 7 (Hoja "gA") (Dos 8 (Hoja "hA") (Hoja "iA")))
 
+            it "Debería incrementarHojas" $
+                [0, 1, -1, 5] `shouldBe` (hojas (incrementarHojas arbolito2))
+
 
     describe "Ejercicio 4" $ do
         describe "truncar" $ do
+            it "Debería obtener las seis primeras hojas de arbolito3" $
+                [1,2,3,2,3,4,3,4,5,4,5,6,0,0,0,0,0] `shouldBe` hojas (truncar 0 6 arbolito3)
+
             it "Hasta el nivel 1, es la raíz original, cambiando los hijos por hojas." $
                 (truncar 'b' 1 arbolGrande) `shouldBe` (Tres 0 1) (Hoja 'b') (Hoja 'b') (Hoja 'b')
             it "El resultado de truncar un árbol hasta el nivel 0 es sólo una hoja" $
@@ -203,6 +214,8 @@ spec = do
 
     describe "Ejercicio 5" $ do
         describe "evaluar" $ do
+            it "Debería evaluar las seis primeras hojas de arbolito3" $
+                22 `shouldBe` (evaluar (truncar 0 6 arbolito3))
             it "Debería resolver el primer ejemplo de la guia" $
                 evaluar (truncar 0 3 arbolEjemploEvaluar1) `shouldBe` -1
             it "Debería ver si el primer ejemplo no da otro numero" $

@@ -25,3 +25,7 @@ spec = do
         describe "busquedaDelTesoro sobre un diccionario con todos los elementos relacionados recorriendo todos" $ do
             it "Deberia no encontrar un tesoro" $ (busquedaDelTesoro "leon" (== "jirafa") juego2) `shouldBe` (Just "jirafa")
             it "Deberia no encontrar un tesoro" $ (busquedaDelTesoro "leon" (== "cocodrilo") juego2) `shouldBe` Nothing
+
+        describe "busquedaDelTesoro sobre dicc2" $ do
+            it "Debería encontrar alfajor" $
+                (Just "alfajor") `shouldBe` (busquedaDelTesoro "inicio" ((=='a').head) dicc2)
