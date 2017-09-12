@@ -1,6 +1,6 @@
-# TP 1: Programación Funcional
+# TP 1
 
-## Grupo:
+## Equipo:
 
 * Martín Altman
 * Gustavo Ajzenman
